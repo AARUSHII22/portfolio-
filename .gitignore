@@ -1,0 +1,4 @@
+outputs/
+work/
+server-err.log
+server-out.log
