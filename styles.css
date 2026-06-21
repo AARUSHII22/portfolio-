@@ -34,18 +34,26 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
+  width: 100%;
   font-family: "Satoshi", "Segoe UI", sans-serif;
   color: var(--ink);
   background: linear-gradient(180deg, var(--forest) 0 100svh, var(--paper) 100svh 100%);
+  overflow-x: hidden;
 }
 
-img {
+img,
+picture,
+video,
+canvas,
+svg {
   display: block;
   max-width: 100%;
+  height: auto;
 }
 
 a {
@@ -61,6 +69,37 @@ button:focus-visible {
 
 .page-shell {
   overflow: clip;
+}
+
+.hero-copy,
+.intro-copy,
+.resume-left,
+.resume-right,
+.technical-panel,
+.skill-box,
+.hackathon-band-copy,
+.hackathon-preview-card,
+.hackathon-roll-card,
+.cert-band-copy,
+.cert-compact-card,
+.poster-body,
+.contact-content,
+.contact-columns > *,
+.contact-form-card,
+.about-copyable-contact {
+  min-width: 0;
+}
+
+.hero-contact-list a,
+.about-copyable-contact span,
+.cert-band-copy p,
+.hackathon-band-copy p,
+.hackathon-preview-card p,
+.hackathon-roll-details p,
+.poster-body p,
+.contact-intro,
+.contact-detail-copy p {
+  overflow-wrap: break-word;
 }
 
 .hero,
@@ -2376,6 +2415,10 @@ main {
   padding: 24px 18px 76px;
   cursor: grab;
   user-select: none;
+  touch-action: pan-y pinch-zoom;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-inline: 18px;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -2414,6 +2457,7 @@ main {
   width: 300px;
   min-width: 300px;
   scroll-snap-align: start;
+  max-width: 100%;
 }
 
 .poster-card-link:hover .poster-accent-circle,
@@ -3218,6 +3262,11 @@ main {
 }
 
 @media (max-width: 1080px) {
+  .hero,
+  main {
+    width: min(calc(100% - 1.5rem), var(--max-width));
+  }
+
   .hero-stage,
   .intro-panel,
   .resume-spread,
@@ -3353,6 +3402,10 @@ main {
     grid-template-columns: 1fr;
   }
 
+  .certifications-marquee {
+    overflow: hidden;
+  }
+
   .cert-band-index {
     right: 1.2rem;
   }
@@ -3485,6 +3538,16 @@ main {
   .hero-bio {
     max-width: 100%;
     font-size: 0.84rem;
+  }
+
+  .hero-copy,
+  .hero-bio,
+  .intro-copy,
+  .contact-content,
+  .contact-field,
+  .cert-band-copy,
+  .hackathon-band-copy {
+    width: 100%;
   }
 
   .portrait-frame {
@@ -3680,6 +3743,8 @@ main {
 
   .projects-nav {
     gap: 0.55rem;
+    width: 100%;
+    justify-content: flex-end;
   }
 
   .projects-nav-btn {
@@ -3709,6 +3774,7 @@ main {
   .projects-rail {
     gap: 18px;
     padding: 18px 10px 44px;
+    scroll-padding-inline: 10px;
   }
 
   .poster-card {
@@ -3746,6 +3812,13 @@ main {
   .project-card:not(.featured-project),
   .featured-project {
     grid-column: span 12;
+  }
+
+  .hackathon-roll-card strong,
+  .hackathon-stage-post h3,
+  .cert-compact-card h3,
+  .poster-body h3 {
+    overflow-wrap: break-word;
   }
 }
 
@@ -4528,6 +4601,15 @@ main {
     line-height: 0.95;
   }
 
+  .education-item h3,
+  .experience-item h3,
+  .skill-box h3,
+  .hackathon-preview-card strong,
+  .poster-body h3,
+  .cert-compact-card h3 {
+    overflow-wrap: break-word;
+  }
+
   .experience-tags,
   .hackathon-tools,
   .hackathon-swatches,
@@ -4557,6 +4639,8 @@ main {
   .web-columns p {
     padding: 0.85rem 0.95rem;
     min-height: 54px;
+    justify-content: flex-start;
+    text-align: left;
   }
 
   .hackathon-showcase-section {
@@ -4673,6 +4757,10 @@ main {
     min-height: 188px;
   }
 
+  .hackathon-roll-card:not(.is-active) {
+    max-height: 74px;
+  }
+
   .hackathon-roll-details p {
     font-size: 0.72rem;
   }
@@ -4726,6 +4814,13 @@ main {
 
   .cert-strip-card {
     min-height: 150px;
+  }
+
+  .cert-band-collage,
+  .certifications-marquee,
+  .projects-showcase,
+  .contact-section {
+    overflow: hidden;
   }
 
   .projects-showcase {
@@ -4799,6 +4894,7 @@ main {
     min-height: 66px;
     padding: 0.85rem 0.75rem;
     font-size: 0.94rem;
+    text-align: center;
   }
 
   .contact-columns {
@@ -4869,6 +4965,19 @@ main {
     height: 500px;
   }
 
+  .poster-body {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .poster-meta {
+    gap: 0.35rem;
+  }
+
+  .poster-index {
+    font-size: 2.2rem;
+  }
+
   .contact-link-tiles {
     grid-template-columns: 1fr;
   }
@@ -4879,5 +4988,108 @@ main {
 
   .contact-collage-photo-wrap {
     inset: 0.85rem 0.85rem 10rem;
+  }
+
+  .hackathon-laptop-header {
+    right: 2.75rem;
+  }
+
+  .hackathon-laptop-badge {
+    right: -0.15rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .hero,
+  main {
+    width: min(calc(100% - 0.35rem), var(--max-width));
+  }
+
+  .nav-links {
+    padding: 0.85rem;
+  }
+
+  .hero-title-solid {
+    font-size: clamp(2.2rem, 12vw, 3rem);
+  }
+
+  .hero-title-outline span {
+    font-size: clamp(2.05rem, 11.5vw, 2.8rem);
+  }
+
+  .hero-photo-wrap {
+    width: min(100%, 272px);
+  }
+
+  .scroll-badge {
+    width: 84px;
+    height: 84px;
+    font-size: 0.84rem;
+  }
+
+  .cert-card-small {
+    width: min(44vw, 140px);
+    height: 106px;
+  }
+
+  .poster-card,
+  .poster-card-link {
+    width: min(88vw, 258px);
+    min-width: min(88vw, 258px);
+  }
+
+  .poster-card {
+    height: 486px;
+  }
+
+  .poster-top {
+    height: 248px;
+  }
+
+  .poster-accent-circle {
+    width: 138px;
+    height: 138px;
+  }
+
+  .hackathon-laptop-screen {
+    min-height: 360px;
+  }
+
+  .hackathon-roll-deck {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 320px) {
+  .hero-title-solid {
+    font-size: 2rem;
+  }
+
+  .hero-title-outline span {
+    font-size: 1.9rem;
+  }
+
+  .hero-contact-list,
+  .hero-bio,
+  .intro-copy p,
+  .hackathon-band-copy p,
+  .cert-band-copy p,
+  .poster-body p,
+  .contact-intro {
+    font-size: 0.78rem;
+  }
+
+  .poster-card,
+  .poster-card-link {
+    width: min(90vw, 244px);
+    min-width: min(90vw, 244px);
+  }
+
+  .poster-card {
+    height: 470px;
+  }
+
+  .contact-collage-shell {
+    min-height: 380px;
   }
 }
