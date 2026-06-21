@@ -48,10 +48,10 @@ if (projectsRail) {
   let settleTimeout = null;
 
   const getScrollAmount = () => {
-    const card = projectsRail.querySelector(".poster-card");
-    if (!card) return 364;
-    const gap = 32;
-    return card.getBoundingClientRect().width + gap;
+    const link = projectsRail.querySelector(".poster-card-link");
+    if (!link) return 364;
+    const gap = Number.parseFloat(getComputedStyle(projectsRail).columnGap || getComputedStyle(projectsRail).gap) || 32;
+    return link.getBoundingClientRect().width + gap;
   };
 
   const updateFocusedCard = () => {
@@ -167,15 +167,22 @@ const hackathonRollCards = Array.from(document.querySelectorAll("[data-roll-card
 
 if (hackathonRollSection && hackathonRollCards.length) {
   let activeHackathonCard = hackathonRollCards[0];
-  const collapsedOffsets = [-8, -36, -64, -92, -120, -148];
+
+  const getHackathonOffsets = () => {
+    const isMobile = window.innerWidth <= 560;
+    return isMobile
+      ? { active: 109, collapsed: [313, 285, 257, 229, 201, 173] }
+      : { active: -220, collapsed: [-8, -36, -64, -92, -120, -148] };
+  };
 
   const renderHackathonStack = () => {
+    const { active: activeOffset, collapsed: collapsedOffsets } = getHackathonOffsets();
     const collapsedCards = hackathonRollCards.filter((card) => card !== activeHackathonCard);
 
     hackathonRollCards.forEach((card, index) => {
       const isActive = activeHackathonCard === card;
       const collapsedIndex = collapsedCards.indexOf(card);
-      const translateY = isActive ? -220 : collapsedOffsets[collapsedIndex] ?? -148;
+      const translateY = isActive ? activeOffset : collapsedOffsets[collapsedIndex] ?? collapsedOffsets[collapsedOffsets.length - 1];
       const scale = isActive ? 1.025 : 0.992;
       const rotate = isActive ? 0 : -0.85;
       const zIndex = isActive ? 120 : 70 - collapsedIndex;
@@ -198,6 +205,8 @@ if (hackathonRollSection && hackathonRollCards.length) {
       renderHackathonStack();
     });
   });
+
+  window.addEventListener("resize", renderHackathonStack);
 
   renderHackathonStack();
 }

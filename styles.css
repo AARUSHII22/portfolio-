@@ -62,9 +62,19 @@ a {
 }
 
 a:focus-visible,
-button:focus-visible {
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
   outline: 3px solid var(--mustard);
   outline-offset: 4px;
+}
+
+input:focus,
+textarea:focus {
+  outline: 2px solid var(--mustard);
+  outline-offset: 2px;
+  border-color: rgba(232, 179, 57, 0.6);
 }
 
 .page-shell {
@@ -1540,17 +1550,17 @@ main {
   -webkit-text-stroke: 1.8px var(--mustard);
   opacity: 0.72;
   letter-spacing: 0.04em;
-  padding-left: 100%;
-  animation: certificationsTicker 18s linear infinite;
+  /* No padding-left — seamless loop via translateX(-50%) on 8 repetitions */
+  animation: certificationsTicker 28s linear infinite;
 }
 
 @keyframes certificationsTicker {
   from {
-    transform: translateX(-100%);
+    transform: translateX(0);
   }
 
   to {
-    transform: translateX(0);
+    transform: translateX(-50%);
   }
 }
 
@@ -2363,6 +2373,7 @@ main {
   padding: 2.6rem 0 3rem;
   opacity: 1;
   transform: none;
+  overflow: visible;
 }
 
 .projects-header {
@@ -2405,20 +2416,26 @@ main {
   box-shadow: 0 10px 20px rgba(18, 18, 18, 0.08);
 }
 
+.projects-rail-viewport {
+  overflow: visible;
+}
+
 .projects-rail {
   display: flex;
   gap: 32px;
+  align-items: flex-start;
   overflow-x: auto;
-  overflow-y: visible;
+  overflow-y: hidden;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  padding: 24px 18px 76px;
+  padding: 3.5rem 18px 4.75rem;
   cursor: grab;
   user-select: none;
   touch-action: pan-y pinch-zoom;
   overscroll-behavior-x: contain;
   -webkit-overflow-scrolling: touch;
   scroll-padding-inline: 18px;
+  scroll-padding-block: 3.5rem;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -2441,6 +2458,7 @@ main {
   height: 640px;
   scroll-snap-align: start;
   box-sizing: border-box;
+  border-radius: 22px;
   z-index: 1;
   opacity: 1;
   filter: brightness(1);
@@ -2458,6 +2476,8 @@ main {
   min-width: 300px;
   scroll-snap-align: start;
   max-width: 100%;
+  padding: 18px;
+  box-sizing: content-box;
 }
 
 .poster-card-link:hover .poster-accent-circle,
@@ -2480,6 +2500,7 @@ main {
   border-radius: 22px;
   background: #f4ecdf;
   box-shadow: 0 24px 50px rgba(17, 20, 16, 0.12);
+  transition: box-shadow 320ms ease;
 }
 
 .projects-rail.has-focus .poster-card {
@@ -2487,18 +2508,22 @@ main {
   filter: brightness(0.9);
 }
 
+.poster-card-link:hover .poster-card,
 .poster-card.is-popped {
-  transform: scale(1.08) translateY(-12px);
+  transform: scale(1.08) translateY(-10px);
   z-index: 10;
   opacity: 1;
   filter: brightness(1);
 }
 
+.poster-card-link:hover .poster-card .poster-surface,
+.poster-card-link:hover .poster-card .billboard-frame,
 .poster-card.is-popped .poster-surface,
 .poster-card.is-popped .billboard-frame {
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
 }
 
+.poster-card-link:hover .poster-card::before,
 .poster-card.is-popped::before {
   content: "";
   position: absolute;
@@ -3227,6 +3252,16 @@ main {
   }
 }
 
+/* Mobile-safe variant — used when badge is position:static (no translateX needed) */
+@keyframes scrollBadgeBobMobile {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
 @keyframes activeCardGlow {
   0%, 100% {
     box-shadow: 0 34px 42px rgba(0, 0, 0, 0.3);
@@ -3301,12 +3336,15 @@ main {
     width: auto;
     font-size: clamp(4rem, 10vw, 6rem);
     white-space: normal;
+    justify-self: center;
+    text-align: center;
   }
 
   .hero-photo-wrap {
     grid-row: 2;
     width: min(100%, 360px);
     margin-top: 0.4rem;
+    margin-left: 0;
   }
 
   .hero-copy {
@@ -3314,6 +3352,12 @@ main {
     max-width: 42rem;
     padding-top: 0;
     min-height: auto;
+    margin-left: 0;
+  }
+
+  .hero-title-outline {
+    margin-left: 0;
+    text-align: center;
   }
 
   .hero-bio {
@@ -3466,6 +3510,27 @@ main {
   }
 }
 
+@media (max-width: 1180px) {
+  .hackathon-header-block {
+    grid-template-columns: 1fr;
+  }
+
+  .hackathon-stats-panel {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 2rem 2rem 2.4rem;
+  }
+
+  .hackathon-grid-full {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 2rem 2rem 0;
+  }
+
+  .hackathon-gained-block,
+  .hackathon-header-copy {
+    padding-inline: 2rem;
+  }
+}
+
 @media (max-width: 760px) {
   body {
     background: linear-gradient(180deg, var(--forest) 0 70rem, var(--paper) 70rem 100%);
@@ -3479,6 +3544,7 @@ main {
   .topbar {
     position: relative;
     align-items: flex-start;
+    z-index: 20;
   }
 
   .menu-toggle {
@@ -3513,7 +3579,8 @@ main {
   }
 
   .hero::after {
-    height: 11rem;
+    height: 4rem;
+    min-height: 0;
   }
 
   .hero-stage {
@@ -3560,6 +3627,7 @@ main {
     margin: 1rem auto 0;
     width: 92px;
     height: 92px;
+    animation-name: scrollBadgeBobMobile;
   }
 
   .intro-panel {
@@ -3773,8 +3841,13 @@ main {
 
   .projects-rail {
     gap: 18px;
-    padding: 18px 10px 44px;
+    padding: 3rem 10px 2.75rem;
     scroll-padding-inline: 10px;
+    scroll-padding-block: 3rem;
+  }
+
+  .poster-card-link {
+    padding: 16px;
   }
 
   .poster-card {
@@ -3819,27 +3892,6 @@ main {
   .cert-compact-card h3,
   .poster-body h3 {
     overflow-wrap: break-word;
-  }
-}
-
-@media (max-width: 1180px) {
-  .hackathon-header-block {
-    grid-template-columns: 1fr;
-  }
-
-  .hackathon-stats-panel {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    padding: 2rem 2rem 2.4rem;
-  }
-
-  .hackathon-grid-full {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding: 2rem 2rem 0;
-  }
-
-  .hackathon-gained-block,
-  .hackathon-header-copy {
-    padding-inline: 2rem;
   }
 }
 
@@ -4227,8 +4279,10 @@ main {
 .hackathon-laptop-header {
   position: absolute;
   top: 0;
-  left: 1.15rem;
-  right: 3.8rem;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  width: min(62%, 18.5rem);
   z-index: 4;
   display: grid;
   justify-items: center;
@@ -4495,6 +4549,10 @@ main {
     border-radius: 20px;
   }
 
+  .hero::after {
+    height: 2.5rem;
+  }
+
   .hero-stage {
     row-gap: 1rem;
     padding-top: 1.1rem;
@@ -4643,6 +4701,15 @@ main {
     text-align: left;
   }
 
+  .about-link-pill {
+    font-size: 0.76rem;
+    padding: 0.75rem 1rem;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    text-align: center;
+    hyphens: auto;
+  }
+
   .hackathon-showcase-section {
     gap: 2rem;
     padding: 3rem 0 2.4rem;
@@ -4711,8 +4778,7 @@ main {
   }
 
   .hackathon-laptop-header {
-    left: 0.85rem;
-    right: 3.2rem;
+    width: min(68%, 16.5rem);
     padding: 0.8rem 0.85rem 0.75rem;
   }
 
@@ -4731,12 +4797,12 @@ main {
   }
 
   .hackathon-laptop-screen {
-    min-height: 410px;
+    min-height: 440px;
     padding: 0.9rem;
   }
 
   .hackathon-roll-deck {
-    min-height: 345px;
+    min-height: 80px;
   }
 
   .hackathon-roll-card {
@@ -4772,6 +4838,7 @@ main {
   .certifications-marquee span {
     font-size: clamp(3.1rem, 17vw, 5rem);
     -webkit-text-stroke: 1px rgba(240, 177, 75, 0.85);
+    animation-duration: 20s;
   }
 
   .certifications-bands {
@@ -4818,9 +4885,12 @@ main {
 
   .cert-band-collage,
   .certifications-marquee,
-  .projects-showcase,
   .contact-section {
     overflow: hidden;
+  }
+
+  .projects-showcase {
+    overflow: visible;
   }
 
   .projects-showcase {
@@ -4833,8 +4903,13 @@ main {
 
   .projects-rail {
     gap: 16px;
-    padding: 16px 8px 34px;
+    padding: 3rem 8px 2.125rem;
     scroll-padding-inline: 8px;
+    scroll-padding-block: 3rem;
+  }
+
+  .poster-card-link {
+    padding: 14px;
   }
 
   .poster-card,
@@ -4922,6 +4997,10 @@ main {
     width: min(calc(100% - 0.5rem), var(--max-width));
   }
 
+  .hero::after {
+    height: 2rem;
+  }
+
   .hero-title-solid {
     font-size: clamp(2.45rem, 13vw, 3.4rem);
   }
@@ -4948,11 +5027,11 @@ main {
   }
 
   .hackathon-laptop-screen {
-    min-height: 380px;
+    min-height: 450px;
   }
 
   .hackathon-roll-deck {
-    min-height: 320px;
+    min-height: 70px;
   }
 
   .poster-card,
@@ -4978,20 +5057,16 @@ main {
     font-size: 2.2rem;
   }
 
-  .contact-link-tiles {
-    grid-template-columns: 1fr;
-  }
-
   .contact-collage-shell {
-    min-height: 400px;
+    min-height: 420px;
   }
 
   .contact-collage-photo-wrap {
-    inset: 0.85rem 0.85rem 10rem;
+    inset: 0.85rem 0.85rem 11rem;
   }
 
   .hackathon-laptop-header {
-    right: 2.75rem;
+    width: min(72%, 15rem);
   }
 
   .hackathon-laptop-badge {
@@ -5027,9 +5102,26 @@ main {
     font-size: 0.84rem;
   }
 
+  /* Hide the small overlay card — prevents overlap with tall+wide cards at this width */
   .cert-card-small {
-    width: min(44vw, 140px);
-    height: 106px;
+    display: none;
+  }
+
+  .cert-card-tall {
+    width: min(100%, 230px);
+    height: 180px;
+    top: 0;
+  }
+
+  .cert-card-wide {
+    left: 0.5rem;
+    bottom: 0;
+    width: min(100%, 200px);
+    height: 120px;
+  }
+
+  .cert-band-collage {
+    min-height: 260px;
   }
 
   .poster-card,
@@ -5052,11 +5144,11 @@ main {
   }
 
   .hackathon-laptop-screen {
-    min-height: 360px;
+    min-height: 440px;
   }
 
   .hackathon-roll-deck {
-    min-height: 300px;
+    min-height: 65px;
   }
 }
 
@@ -5090,6 +5182,165 @@ main {
   }
 
   .contact-collage-shell {
-    min-height: 380px;
+    min-height: 400px;
+  }
+}
+
+/* ============================================================
+   PHONE LANDSCAPE: orientation:landscape + short viewport
+   Prevents portrait image and laptop widget from exceeding
+   viewport height on phones rotated sideways
+   ============================================================ */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero {
+    min-height: auto;
+    padding-bottom: 2rem;
+  }
+
+  .hero::after {
+    height: 7rem;
+    min-height: 0;
+  }
+
+  .hero-stage {
+    padding-top: 1rem;
+    row-gap: 0.75rem;
+  }
+
+  .portrait-frame {
+    aspect-ratio: 4 / 3;
+    max-height: 220px;
+  }
+
+  .hero-photo-wrap {
+    width: min(100%, 240px);
+    margin-inline: auto;
+    margin-left: 0;
+  }
+
+  .hackathon-band {
+    min-height: 0;
+  }
+
+  .hackathon-band-collage,
+  .hackathon-collage-frame {
+    min-height: 240px;
+  }
+
+  .hackathon-laptop-screen {
+    min-height: 280px;
+  }
+
+  .hackathon-laptop-shell {
+    padding-top: 40px;
+  }
+
+  .hackathon-roll-deck {
+    min-height: 220px;
+  }
+
+  .hackathon-roll-card.is-active {
+    min-height: 160px;
+  }
+
+  .cert-band {
+    padding-block: 1.5rem;
+  }
+
+  .cert-band-collage {
+    min-height: 240px;
+  }
+
+  .contact-collage-shell {
+    min-height: 280px;
+  }
+
+  .contact-collage-photo-wrap {
+    inset: 0.75rem 0.75rem 7rem;
+  }
+}
+
+/* ============================================================
+   LARGE SCREENS / TV / 4K  (min-width: 1440px)
+   Scale up key typographic and UI elements for large monitors
+   ============================================================ */
+@media (min-width: 1440px) {
+  :root {
+    --max-width: 1380px;
+  }
+
+  .hero-title-solid {
+    font-size: clamp(7.9rem, 8vw, 10rem);
+  }
+
+  .hero-title-outline span {
+    font-size: clamp(7.8rem, 8vw, 9.8rem);
+  }
+
+  .intro-copy h2 {
+    font-size: clamp(5rem, 6vw, 7.5rem);
+  }
+
+  .poster-card,
+  .poster-card-link {
+    width: 340px;
+    min-width: 340px;
+  }
+
+  .poster-card {
+    height: 700px;
+  }
+
+  .poster-top {
+    height: 380px;
+  }
+
+  .cert-band {
+    min-height: 580px;
+    padding: 5rem 4rem 5rem 0;
+  }
+
+  .hackathon-laptop-shell {
+    width: min(100%, 560px);
+  }
+
+  .hackathon-laptop-screen {
+    min-height: 580px;
+  }
+
+  .hackathon-roll-deck {
+    min-height: 510px;
+  }
+}
+
+@media (min-width: 1920px) {
+  :root {
+    --max-width: 1560px;
+  }
+
+  .hero-title-solid {
+    font-size: clamp(9rem, 7.5vw, 12rem);
+  }
+
+  .hero-title-outline span {
+    font-size: clamp(8.8rem, 7.5vw, 11.5rem);
+  }
+
+  .certifications-marquee span {
+    font-size: clamp(7.6rem, 8vw, 11rem);
+  }
+
+  .poster-card,
+  .poster-card-link {
+    width: 380px;
+    min-width: 380px;
+  }
+
+  .poster-card {
+    height: 760px;
+  }
+
+  .poster-top {
+    height: 420px;
   }
 }
