@@ -3510,8 +3510,12 @@ main {
 
   .about-card-wrap .resume-outline {
     bottom: -9rem;
-    width: 100vw;
-    max-width: none;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100vw - 1rem);
+    max-width: calc(100vw - 1rem);
+    padding-inline: 0.5rem;
+    box-sizing: border-box;
   }
 
   .about-card-wrap .resume-outline span {
@@ -3519,8 +3523,11 @@ main {
     width: 100%;
     text-align: center;
     white-space: nowrap;
-    font-size: clamp(3.2rem, 10.5vw, 7.2rem);
-    letter-spacing: -0.035em;
+    font-size: min(6.75rem, calc((100vw - 1.35rem) / 4.05));
+    line-height: 0.76;
+    letter-spacing: -0.028em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(232, 179, 57, 0.88);
   }
 
   .resume-left {
@@ -3692,19 +3699,24 @@ main {
   .about-card-wrap .resume-outline {
     left: 50%;
     bottom: -6.75rem;
-    width: 100vw;
-    max-width: none;
+    width: calc(100vw - 1rem);
+    max-width: calc(100vw - 1rem);
     transform: translateX(-50%);
     gap: 0.08rem;
+    padding-inline: 0.5rem;
+    box-sizing: border-box;
   }
 
   .about-card-wrap .resume-outline span {
     display: block;
     width: 100%;
-    font-size: clamp(3.4rem, 26vw, 7.5rem);
-    letter-spacing: -0.045em;
+    font-size: min(6.5rem, calc((100vw - 1.35rem) / 4.05));
+    line-height: 0.76;
+    letter-spacing: -0.028em;
     text-align: center;
     white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(232, 179, 57, 0.88);
   }
 
   .resume-left {
@@ -4716,14 +4728,11 @@ main {
 
   .about-card-wrap .resume-outline {
     bottom: -5.25rem;
-    width: 100vw;
-    max-width: none;
+    width: calc(100vw - 0.75rem);
+    max-width: calc(100vw - 0.75rem);
+    padding-inline: 0.45rem;
+    box-sizing: border-box;
     opacity: 1;
-  }
-
-  .about-card-wrap .resume-outline span {
-    font-size: clamp(3rem, 27vw, 6.5rem);
-    letter-spacing: -0.05em;
   }
 
   .resume-left {
@@ -5249,6 +5258,11 @@ main {
 }
 
 @media (max-width: 320px) {
+  .about-card-wrap .resume-outline span {
+    font-size: min(5.75rem, calc((100vw - 1.1rem) / 4.12));
+    letter-spacing: -0.03em;
+  }
+
   .hero-title-solid {
     font-size: 2rem;
   }
