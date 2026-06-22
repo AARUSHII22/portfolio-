@@ -1599,6 +1599,8 @@ main {
 
 .certifications-section {
   margin-top: 2rem;
+  position: relative;
+  z-index: 2;
 }
 
 .certifications-compact {
@@ -1660,6 +1662,7 @@ main {
   margin-left: -2.8rem;
   margin-bottom: -4rem;
   z-index: 3;
+  overflow: visible;
 }
 
 .cert-collage-shadow {
@@ -1682,6 +1685,7 @@ main {
   background: rgba(248, 244, 236, 0.98);
   border: 1px solid rgba(24, 21, 17, 0.08);
   box-shadow: 0 22px 42px rgba(18, 18, 18, 0.18);
+  z-index: 5;
 }
 
 .cert-shot {
@@ -3456,7 +3460,8 @@ main {
 
   .cert-band-collage {
     margin-left: 0;
-    margin-bottom: -2rem;
+    margin-bottom: 0;
+    overflow: visible;
   }
 
   .hackathon-grid-full {
@@ -3504,9 +3509,22 @@ main {
   }
 
   .about-card-wrap .resume-outline {
-    left: 50%;
-    bottom: -10.5rem;
-    transform: translateX(-50%);
+    bottom: -9rem;
+    width: 100vw;
+    max-width: none;
+  }
+
+  .about-card-wrap .resume-outline span {
+    display: block;
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    font-size: clamp(3.2rem, 10.5vw, 7.2rem);
+    letter-spacing: -0.035em;
+  }
+
+  .resume-left {
+    padding-top: 6rem;
   }
 }
 
@@ -3673,7 +3691,7 @@ main {
 
   .about-card-wrap .resume-outline {
     left: 50%;
-    bottom: -8rem;
+    bottom: -6.75rem;
     width: 100vw;
     max-width: none;
     transform: translateX(-50%);
@@ -3689,6 +3707,10 @@ main {
     white-space: nowrap;
   }
 
+  .resume-left {
+    padding-top: 6.5rem;
+  }
+
   .web-columns {
     grid-template-columns: 1fr;
     gap: 0.45rem;
@@ -3700,6 +3722,51 @@ main {
 
   .certifications-bands {
     gap: 4rem;
+  }
+
+  .cert-band {
+    overflow: visible;
+    padding-top: 2.75rem;
+  }
+
+  .cert-band-collage {
+    overflow: visible;
+    z-index: 6;
+    margin-bottom: 0;
+    padding: 1.5rem 0 1.75rem;
+    min-height: 300px;
+  }
+
+  .cert-collage-shadow {
+    z-index: 0;
+  }
+
+  .cert-collage-card {
+    z-index: 7;
+  }
+
+  .cert-card-tall {
+    top: 0;
+    z-index: 8;
+  }
+
+  .cert-card-small {
+    z-index: 9;
+  }
+
+  .cert-card-wide {
+    bottom: 0;
+    z-index: 10;
+  }
+
+  .cert-band-copy {
+    position: relative;
+    z-index: 1;
+    margin-top: 0.35rem;
+  }
+
+  .cert-band-index {
+    z-index: 11;
   }
 
   .contact-section {
@@ -4648,7 +4715,7 @@ main {
   }
 
   .about-card-wrap .resume-outline {
-    bottom: -5.75rem;
+    bottom: -5.25rem;
     width: 100vw;
     max-width: none;
     opacity: 1;
@@ -4657,6 +4724,10 @@ main {
   .about-card-wrap .resume-outline span {
     font-size: clamp(3rem, 27vw, 6.5rem);
     letter-spacing: -0.05em;
+  }
+
+  .resume-left {
+    padding-top: 5.85rem;
   }
 
   .about-card {
@@ -4864,7 +4935,8 @@ main {
 
   .cert-band {
     gap: 1.45rem;
-    padding: 2.6rem 1rem 3rem;
+    padding: 2.75rem 1rem 3rem;
+    overflow: visible;
   }
 
   .cert-band-copy h2 {
@@ -4877,30 +4949,41 @@ main {
   }
 
   .cert-band-collage {
-    min-height: 320px;
+    overflow: visible;
+    min-height: 300px;
     margin-bottom: 0;
+    padding: 1.35rem 0 1.5rem;
+    z-index: 6;
   }
 
   .cert-card-tall {
+    top: 0;
     width: min(100%, 260px);
     height: 190px;
+    z-index: 8;
   }
 
   .cert-card-small {
     width: min(48vw, 156px);
     height: 116px;
+    z-index: 9;
   }
 
   .cert-card-wide {
+    bottom: 0;
     width: min(100%, 220px);
     height: 136px;
+    z-index: 10;
+  }
+
+  .cert-band-copy {
+    z-index: 1;
   }
 
   .cert-strip-card {
     min-height: 150px;
   }
 
-  .cert-band-collage,
   .certifications-marquee,
   .contact-section {
     overflow: hidden;
@@ -5119,9 +5202,9 @@ main {
     font-size: 0.84rem;
   }
 
-  /* Hide the small overlay card — prevents overlap with tall+wide cards at this width */
-  .cert-card-small {
-    display: none;
+  .cert-band-collage {
+    min-height: 280px;
+    padding: 1.25rem 0 1.35rem;
   }
 
   .cert-card-tall {
@@ -5135,10 +5218,6 @@ main {
     bottom: 0;
     width: min(100%, 200px);
     height: 120px;
-  }
-
-  .cert-band-collage {
-    min-height: 260px;
   }
 
   .poster-card,
