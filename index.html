@@ -1332,25 +1332,27 @@
 
         </div>
 
-        <!-- CONTACT FORM: Name, email, and message fields with submit button -->
-        <form class="contact-form-card">
+        <!-- CONTACT FORM: Opens your email app with a prefilled draft (mailto) -->
+        <form class="contact-form-card" id="contact-form" novalidate>
           <div class="contact-form-grid">
             <label class="contact-field">
               <span>Name</span>
-              <input type="text" name="name" placeholder="Your name">
+              <input type="text" name="name" placeholder="Your name" maxlength="80" required autocomplete="name">
             </label>
 
             <label class="contact-field">
               <span>Email</span>
-              <input type="email" name="email" placeholder="you@example.com">
+              <input type="email" name="email" placeholder="you@example.com" maxlength="254" required autocomplete="email">
             </label>
 
             <label class="contact-field contact-field-full">
               <span>Message</span>
-              <textarea name="message" rows="6" placeholder="Tell me what you're building, hiring for, or curious about..."></textarea>
+              <textarea name="message" rows="6" maxlength="2000" required placeholder="Tell me what you're building, hiring for, or curious about..."></textarea>
             </label>
           </div>
 
+          <p class="contact-form-hint">Submitting opens your email app with this message ready to send.</p>
+          <p class="contact-form-status" id="contact-form-status" role="status" aria-live="polite" hidden></p>
           <button class="contact-submit" type="submit">Send It →</button>
         </form>
 

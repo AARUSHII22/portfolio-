@@ -210,3 +210,69 @@ if (hackathonRollSection && hackathonRollCards.length) {
 
   renderHackathonStack();
 }
+
+const contactForm = document.getElementById("contact-form");
+const contactFormStatus = document.getElementById("contact-form-status");
+const CONTACT_EMAIL = "aarushii2206@gmail.com";
+
+if (contactForm) {
+  const nameInput = contactForm.querySelector('[name="name"]');
+  const emailInput = contactForm.querySelector('[name="email"]');
+  const messageInput = contactForm.querySelector('[name="message"]');
+
+  const setFieldError = (field, hasError) => {
+    field.closest(".contact-field")?.classList.toggle("is-invalid", hasError);
+  };
+
+  const showStatus = (message, isError = false) => {
+    if (!contactFormStatus) return;
+    contactFormStatus.textContent = message;
+    contactFormStatus.hidden = !message;
+    contactFormStatus.classList.toggle("is-error", isError);
+  };
+
+  const validateContactForm = () => {
+    let isValid = true;
+
+    [nameInput, emailInput, messageInput].forEach((field) => setFieldError(field, false));
+
+    const name = nameInput?.value.trim() ?? "";
+    const email = emailInput?.value.trim() ?? "";
+    const message = messageInput?.value.trim() ?? "";
+
+    if (!name) {
+      setFieldError(nameInput, true);
+      isValid = false;
+    }
+
+    if (!email || !emailInput?.checkValidity()) {
+      setFieldError(emailInput, true);
+      isValid = false;
+    }
+
+    if (!message) {
+      setFieldError(messageInput, true);
+      isValid = false;
+    }
+
+    return isValid ? { name, email, message } : null;
+  };
+
+  contactForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    showStatus("");
+
+    const data = validateContactForm();
+    if (!data) {
+      showStatus("Please fill in your name, a valid email, and a message.", true);
+      return;
+    }
+
+    const subject = `Portfolio contact from ${data.name}`;
+    const body = `Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`;
+    const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailtoUrl;
+    showStatus("Your email app should open — hit send there to deliver the message.");
+  });
+}
